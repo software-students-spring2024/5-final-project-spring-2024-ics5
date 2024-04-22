@@ -18,6 +18,7 @@ export default function Start() {
   const [gameState, setGameState] = useState({
     gameObjects: [],
     guesses: [1500, 1500, 1500, 1500, 1500],
+    playerGuessed: [true, false, false, false, false],
   });
 
   return (

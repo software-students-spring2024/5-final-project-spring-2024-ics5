@@ -15,6 +15,7 @@ import { motion } from "framer-motion";
 import ArtifactViewer from "../../Components/ArtifactViewer";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import FadeInUpBox from "../../Components/FadeUp";
+import GameProgress from "../../Components/GameProgress";
 
 export default function Game({ setStage, gameState, setGameState }) {
   // loading states
@@ -84,21 +85,15 @@ export default function Game({ setStage, gameState, setGameState }) {
   // return game content
   return (
     <VStack gap={10}>
-      <HStack alignItems="center">
-        {/* left arrow */}
-        <VStack position="absolute" left={25}>
-          <IconButton
-            colorScheme="brand"
-            borderRadius={25}
-            onClick={() => {
-              if (progression != 0) setProgression(progression - 1);
-            }}
-            icon={<Icon as={FiChevronLeft} />}
-          >
-            Last Item
-          </IconButton>
-        </VStack>
+      {/* top legend */}
+      <GameProgress
+        gameState={gameState}
+        setGameState={setGameState}
+        progression={progression}
+        setProgression={setProgression}
+      />
 
+      <HStack alignItems="center">
         {/* main content */}
         <HStack>
           <ArtifactViewer
@@ -106,18 +101,6 @@ export default function Game({ setStage, gameState, setGameState }) {
             progression={progression}
           />
         </HStack>
-
-        {/* right arrow */}
-        <VStack position="absolute" right={25}>
-          <IconButton
-            colorScheme="brand"
-            borderRadius={25}
-            onClick={() => {
-              if (progression != 4) setProgression(progression + 1);
-            }}
-            icon={<Icon as={FiChevronRight} />}
-          ></IconButton>
-        </VStack>
       </HStack>
     </VStack>
   );
