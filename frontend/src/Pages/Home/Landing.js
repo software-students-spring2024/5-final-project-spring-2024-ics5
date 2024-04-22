@@ -2,8 +2,11 @@ import { VStack, Heading, Text, Button, Icon, HStack } from "@chakra-ui/react";
 import { FiSmile } from "react-icons/fi";
 import FadeInUpBox from "../../Components/FadeUp";
 
+import { useNavigate } from "react-router-dom";
+
 const Landing = ({ setStage }) => {
   const delay = 0.5;
+  const navigate = useNavigate();
 
   return (
     <VStack position="absolute">
@@ -39,7 +42,10 @@ const Landing = ({ setStage }) => {
             transition: "0.2s",
           }}
           onClick={() => {
-            setStage("login");
+            setStage("NA");
+            setTimeout(() => {
+              navigate("/game");
+            }, 1000);
           }}
         >
           Play as Guest
