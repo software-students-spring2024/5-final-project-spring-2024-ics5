@@ -4,22 +4,17 @@ import {
   Center,
   Text,
   Spinner,
-  Image,
   HStack,
-  Button,
   Icon,
   IconButton,
+  Box,
 } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 
 // import components
-import FadeInUpBox from "../../Components/FadeUp";
 import ArtifactViewer from "../../Components/ArtifactViewer";
-import {
-  FiArrowLeftCircle,
-  FiArrowRightCircle,
-  FiChevronLeft,
-  FiChevronRight,
-} from "react-icons/fi";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import FadeInUpBox from "../../Components/FadeUp";
 
 export default function Game({ setStage, gameState, setGameState }) {
   // loading states
