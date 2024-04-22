@@ -1,6 +1,10 @@
+"""
+Fetches from met museum api to create game and return data to frontend
+"""
+
+import random
 from flask import Flask, jsonify
 import requests
-import random
 
 app = Flask(__name__)
 
@@ -10,13 +14,14 @@ def fetch_object_ids():
     Fetches met museum api for all object ids.
     """
     url = "https://collectionapi.metmuseum.org/public/collection/v1/objects"
-    response = requests.get(url)
+    response = requests.get(url, timeout=30)
     if response.status_code == 200:
         data = response.json()
         return data["objectIDs"]
-    else:
-        print(f"Failed to retrieve data: {response.status_code}")
-        return []
+
+    # catch errors
+    print(f"Failed to retrieve data: {response.status_code}")
+    return []
 
 
 @app.route("/create-game", methods=["GET"])
@@ -36,7 +41,7 @@ def create_game():
     target = []
     for object_id in object_ids:
         url = f"https://collectionapi.metmuseum.org/public/collection/v1/objects/{object_id}"
-        response = requests.get(url)
+        response = requests.get(url, timeout=30)
         if response.status_code == 200:
             data = response.json()  # parse data
             if all(
