@@ -1,20 +1,10 @@
 import { useEffect, useState } from "react";
-import {
-  VStack,
-  Center,
-  Text,
-  Spinner,
-  HStack,
-  Icon,
-  IconButton,
-  Box,
-} from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { VStack, Center, Text, Spinner } from "@chakra-ui/react";
 
 // import components
-import ArtifactViewer from "../../Components/ArtifactViewer";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import FadeInUpBox from "../../Components/FadeUp";
+import ArtifactViewer from "./ArtifactViewer";
+import GameProgress from "./GameProgress";
+import GuessingBox from "./GuessingBox";
 
 export default function Game({ setStage, gameState, setGameState }) {
   // loading states
@@ -84,41 +74,26 @@ export default function Game({ setStage, gameState, setGameState }) {
   // return game content
   return (
     <VStack gap={10}>
-      <HStack alignItems="center">
-        {/* left arrow */}
-        <VStack position="absolute" left={25}>
-          <IconButton
-            colorScheme="brand"
-            borderRadius={25}
-            onClick={() => {
-              if (progression != 0) setProgression(progression - 1);
-            }}
-            icon={<Icon as={FiChevronLeft} />}
-          >
-            Last Item
-          </IconButton>
-        </VStack>
+      {/* top legend */}
+      <GameProgress
+        gameState={gameState}
+        setGameState={setGameState}
+        progression={progression}
+        setProgression={setProgression}
+      />
 
-        {/* main content */}
-        <HStack>
-          <ArtifactViewer
-            gameObjects={gameState["gameObjects"]}
-            progression={progression}
-          />
-        </HStack>
+      {/* main content */}
+      <ArtifactViewer
+        gameObjects={gameState["gameObjects"]}
+        progression={progression}
+      />
 
-        {/* right arrow */}
-        <VStack position="absolute" right={25}>
-          <IconButton
-            colorScheme="brand"
-            borderRadius={25}
-            onClick={() => {
-              if (progression != 4) setProgression(progression + 1);
-            }}
-            icon={<Icon as={FiChevronRight} />}
-          ></IconButton>
-        </VStack>
-      </HStack>
+      {/* guessor */}
+      <GuessingBox
+        gameState={gameState}
+        setGameState={setGameState}
+        progression={progression}
+      />
     </VStack>
   );
 }
