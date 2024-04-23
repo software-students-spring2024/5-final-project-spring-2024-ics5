@@ -1,21 +1,10 @@
 import { useEffect, useState } from "react";
-import {
-  VStack,
-  Center,
-  Text,
-  Spinner,
-  HStack,
-  Icon,
-  IconButton,
-  Box,
-} from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { VStack, Center, Text, Spinner } from "@chakra-ui/react";
 
 // import components
-import ArtifactViewer from "../../Components/ArtifactViewer";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import FadeInUpBox from "../../Components/FadeUp";
-import GameProgress from "../../Components/GameProgress";
+import ArtifactViewer from "./ArtifactViewer";
+import GameProgress from "./GameProgress";
+import GuessingBox from "./GuessingBox";
 
 export default function Game({ setStage, gameState, setGameState }) {
   // loading states
@@ -93,15 +82,18 @@ export default function Game({ setStage, gameState, setGameState }) {
         setProgression={setProgression}
       />
 
-      <HStack alignItems="center">
-        {/* main content */}
-        <HStack>
-          <ArtifactViewer
-            gameObjects={gameState["gameObjects"]}
-            progression={progression}
-          />
-        </HStack>
-      </HStack>
+      {/* main content */}
+      <ArtifactViewer
+        gameObjects={gameState["gameObjects"]}
+        progression={progression}
+      />
+
+      {/* guessor */}
+      <GuessingBox
+        gameState={gameState}
+        setGameState={setGameState}
+        progression={progression}
+      />
     </VStack>
   );
 }
