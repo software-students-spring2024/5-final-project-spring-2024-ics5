@@ -1,11 +1,4 @@
-import {
-  Slider,
-  SliderFilledTrack,
-  Tooltip,
-  SliderThumb,
-  SliderTrack,
-  VStack,
-} from "@chakra-ui/react";
+import { Text, VStack, Input } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
@@ -14,7 +7,7 @@ export default function GuessingBox({ gameState, setGameState, progression }) {
   const [showTooltip, setShowTooltip] = useState(false);
 
   return (
-    <VStack position="absolute" bottom={150}>
+    <VStack position="absolute" bottom={40}>
       <motion.div
         initial={{ opacity: 0, y: 25 }} // start state
         animate={{ opacity: 1, y: 0 }} // end state
@@ -24,38 +17,24 @@ export default function GuessingBox({ gameState, setGameState, progression }) {
           ease: [0.6, -0.05, 0.01, 0.99],
         }}
       >
-        <VStack
-          bg="rgba(255,255,255,0.75)"
-          borderRadius={20}
-          p={10}
-          px={20}
-          w={800}
-          gap={5}
-          boxShadow="lg"
-        >
-          <Slider
-            defaultValue={1500}
-            min={-1500}
-            max={2020}
-            step={5}
-            onChange={(v) => setSliderValue(v)}
-            onMouseEnter={() => setShowTooltip(true)}
-            onMouseLeave={() => setShowTooltip(false)}
-          >
-            <SliderTrack bg="red.100">
-              <SliderFilledTrack bg="tomato" />
-            </SliderTrack>
-            <Tooltip
-              hasArrow
-              bg="teal.500"
-              color="white"
-              placement="top"
-              isOpen={showTooltip}
-              label={`${sliderValue}`}
-            >
-              <SliderThumb />
-            </Tooltip>
-          </Slider>
+        <VStack gap={5}>
+          <Input
+            width={200}
+            height={75}
+            placeholder="0000"
+            textAlign="center"
+            fontFamily="monospace"
+            borderRadius={25}
+            bg="white"
+            variant="outlined"
+            fontSize={36}
+            _hover={{
+              shadow: "lg",
+              transform: "translateY(-5px)",
+              transition: "0.2s",
+            }}
+          />
+          <Text>Guess the year!</Text>
         </VStack>
       </motion.div>
     </VStack>
