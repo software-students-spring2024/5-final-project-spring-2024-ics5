@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { VStack, Center, Text, Button } from "@chakra-ui/react";
 import { AnimatePresence } from "framer-motion";
 
 // import components
 import FadeInUpBox from "../../Components/FadeUp";
 import Game from "./Game";
+import Results from "../PostGame/Results";
 
 export default function Start() {
   /**
@@ -23,6 +24,20 @@ export default function Start() {
     score: 0,
   });
 
+  useEffect(() => {
+    if (stage == "playAgain") {
+      // reset game state
+      setGameState({
+        gameObjects: [],
+        guesses: ["", "", "", "", ""],
+        playerGuessed: [false, false, false, false, false],
+        roundScores: [0, 0, 0, 0, 0],
+        score: 0,
+      });
+      setStage("");
+    }
+  }, [stage]);
+
   return (
     <VStack bgGradient="linear(to-r, #F5F5DC, #D8CAB8)" height="100vh" p={50}>
       <Center height="100%">
@@ -35,7 +50,9 @@ export default function Start() {
               setGameState={setGameState}
             />
           )}
-          {stage == "postGame" && <Text fontSize={12}>post game</Text>}
+          {stage == "postGame" && (
+            <Results gameState={gameState} setStage={setStage} />
+          )}
         </AnimatePresence>
       </Center>
     </VStack>

@@ -1,5 +1,4 @@
 import { Center, VStack, Text, Icon, HStack } from "@chakra-ui/react";
-import { useState } from "react";
 import FadeInUpBox from "./FadeUp";
 import CountUp from "react-countup";
 import { FiMousePointer } from "react-icons/fi";
