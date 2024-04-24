@@ -1,11 +1,21 @@
 import { useEffect, useState } from "react";
-import { VStack, Center, Text, Button } from "@chakra-ui/react";
+import {
+  VStack,
+  Center,
+  Text,
+  Button,
+  HStack,
+  Icon,
+  Image,
+  Heading,
+} from "@chakra-ui/react";
 import { AnimatePresence } from "framer-motion";
 
 // import components
 import FadeInUpBox from "../../Components/FadeUp";
 import Game from "./Game";
 import Results from "../PostGame/Results";
+import { FiChevronRight } from "react-icons/fi";
 
 export default function Start() {
   /**
@@ -61,16 +71,137 @@ export default function Start() {
 
 const Menu = ({ setStage }) => {
   return (
-    <VStack>
+    <VStack gap={5}>
       <FadeInUpBox delay={0}>
-        <Text>Start</Text>
-        <Button
+        <Heading fontSize={64} color="brand.700" fontWeight="900" mb={10}>
+          gamemode
+        </Heading>
+      </FadeInUpBox>
+
+      <FadeInUpBox delay={0.2}>
+        <HStack
+          p={5}
+          gap={5}
+          width={540}
+          borderRadius={20}
+          bg="rgba(255,255,255,0.75)"
+          _hover={{
+            cursor: "pointer",
+            bg: "white",
+            transition: "0.2s",
+            shadow: "lg",
+            transform: "translateY(-5px)",
+          }}
           onClick={() => {
             setStage("game");
           }}
         >
-          Fetch
-        </Button>
+          <Image src="/icons/temple.png" boxSize={20} />
+          <VStack alignItems="left">
+            <Text fontSize={20} fontWeight="600">
+              Classic
+            </Text>
+            <Text fontSize={16} fontWeight="400">
+              Play the regular mode with all artifacts from the MET included.
+            </Text>
+          </VStack>
+          <Icon as={FiChevronRight} fontSize={24} />
+        </HStack>
+      </FadeInUpBox>
+
+      <FadeInUpBox delay={0.4}>
+        <HStack
+          p={5}
+          gap={5}
+          width={540}
+          borderRadius={20}
+          bg="rgba(255,255,255,0.75)"
+          _hover={{
+            cursor: "pointer",
+            bg: "white",
+            transition: "0.2s",
+            shadow: "lg",
+            transform: "translateY(-5px)",
+          }}
+          onClick={() => {
+            setStage("game");
+          }}
+        >
+          <Image src="/icons/bamboo.png" boxSize={20} />
+          <VStack alignItems="left">
+            <Text fontSize={20} fontWeight="600">
+              Asian
+            </Text>
+            <Text fontSize={16} fontWeight="400">
+              Play the game but with artifacts from the Asian Art Wing only.
+            </Text>
+          </VStack>
+          <Icon as={FiChevronRight} fontSize={24} />
+        </HStack>
+      </FadeInUpBox>
+
+      <FadeInUpBox delay={0.6}>
+        <HStack
+          p={5}
+          gap={5}
+          width={540}
+          borderRadius={20}
+          bg="rgba(255,255,255,0.75)"
+          _hover={{
+            cursor: "pointer",
+            bg: "white",
+            transition: "0.2s",
+            shadow: "lg",
+            transform: "translateY(-5px)",
+          }}
+          onClick={() => {
+            setStage("game");
+          }}
+        >
+          <Image src="/icons/knight-on-horseback.png" boxSize={20} />
+          <VStack alignItems="left">
+            <Text fontSize={20} fontWeight="600">
+              Medieval
+            </Text>
+            <Text fontSize={16} fontWeight="400">
+              Play the game but with artifacts from the Medieval Art Department
+              only.
+            </Text>
+          </VStack>
+          <Icon as={FiChevronRight} fontSize={24} />
+        </HStack>
+      </FadeInUpBox>
+
+      <FadeInUpBox delay={0.8}>
+        <HStack
+          p={5}
+          gap={5}
+          width={540}
+          borderRadius={20}
+          bg="rgba(255,255,255,0.75)"
+          _hover={{
+            cursor: "pointer",
+            bg: "white",
+            transition: "0.2s",
+            shadow: "lg",
+            transform: "translateY(-5px)",
+          }}
+          onClick={() => {
+            setStage("game");
+          }}
+        >
+          <Image src="/icons/cello.png" boxSize={20} />
+          <VStack alignItems="left">
+            <Text fontSize={20} fontWeight="600">
+              Musical Instruments
+            </Text>
+            <Text fontSize={16} fontWeight="400">
+              Play the game but with artifacts from the Musical Instruments
+              Collection only.
+            </Text>
+          </VStack>
+          <Icon as={FiChevronRight} fontSize={24} />
+        </HStack>
       </FadeInUpBox>
     </VStack>
   );

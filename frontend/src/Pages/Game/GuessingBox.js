@@ -87,6 +87,7 @@ export default function GuessingBox({
           <Box width={100}></Box>
           <VStack gap={5}>
             <Input
+              autoFocus
               width={175}
               height={50}
               placeholder="0000"
@@ -147,14 +148,7 @@ export default function GuessingBox({
         </HStack>
       </motion.div>
 
-      <Modal
-        isOpen={isOpen}
-        onClose={() => {
-          onClose(); // close modal
-          if (progression < 4) setProgression(progression + 1);
-          else setStage("postGame");
-        }}
-      >
+      <Modal isOpen={isOpen} closeOnOverlayClick={false}>
         <ModalOverlay bg="rgba(0,0,0,0.85)" />
         <ModalContent bg="none" boxShadow="none">
           <ModalBody>
@@ -162,6 +156,11 @@ export default function GuessingBox({
               userGuess={guess}
               gameState={gameState}
               progression={progression}
+              onClose={() => {
+                onClose(); // close modal
+                if (progression < 4) setProgression(progression + 1);
+                else setStage("postGame");
+              }}
             />
           </ModalBody>
         </ModalContent>
