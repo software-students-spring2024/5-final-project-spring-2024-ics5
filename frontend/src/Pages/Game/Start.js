@@ -17,7 +17,7 @@ export default function Start() {
   // game state to be shared by all game pages
   const [gameState, setGameState] = useState({
     gameObjects: [],
-    guesses: [0, 0, 0, 0, 0],
+    guesses: ["", "", "", "", ""],
     playerGuessed: [false, false, false, false, false],
     roundScores: [0, 0, 0, 0, 0],
     score: 0,
@@ -45,7 +45,7 @@ export default function Start() {
 const Menu = ({ setStage }) => {
   return (
     <VStack>
-      <FadeInUpBox delay={0.25}>
+      <FadeInUpBox delay={0}>
         <Text>Start</Text>
         <Button
           onClick={() => {

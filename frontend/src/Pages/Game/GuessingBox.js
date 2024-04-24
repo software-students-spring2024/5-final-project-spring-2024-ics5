@@ -10,16 +10,11 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
-  ModalCloseButton,
-  Center,
 } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { FiCheck, FiChevronRight } from "react-icons/fi";
-import FadeInUpBox from "../../Components/FadeUp";
+import { FiChevronRight } from "react-icons/fi";
 import ScoreModal from "../../Components/ScoreModal";
 
 export default function GuessingBox({
@@ -32,6 +27,11 @@ export default function GuessingBox({
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleGuess = () => {
+    // validate input
+    if (guess == "") {
+      return;
+    }
+
     // get prev game state
     const playerGuessed = structuredClone(gameState["playerGuessed"]);
     playerGuessed[progression] = true; // set current progression to true
@@ -47,6 +47,8 @@ export default function GuessingBox({
     if (difference <= 1000) {
       roundScore = 1000 - difference;
     }
+    const roundScoreArr = structuredClone(gameState["roundScores"]);
+    roundScoreArr[progression] = roundScore;
 
     // update total score
     const totalScore = gameState["score"] + roundScore;
@@ -56,6 +58,7 @@ export default function GuessingBox({
       ...prevState,
       playerGuessed: playerGuessed,
       guesses: guessNumbers,
+      roundScores: roundScoreArr,
       score: totalScore,
     }));
 
@@ -106,27 +109,54 @@ export default function GuessingBox({
             ></Input>
             <Text>Guess the year!</Text>
           </VStack>
-          <Button
-            rightIcon={<Icon as={FiChevronRight} />}
-            colorScheme="brand"
-            width={100}
-            onClick={handleGuess}
-            borderRadius={20}
-            _hover={{
-              shadow: "lg",
-              transform: "translateY(-5px)",
-              transition: "0.2s",
-            }}
-          >
-            Next
-          </Button>
+          <AnimatePresence>
+            {guess != "" ? (
+              <motion.div
+                initial={{ opacity: 0, y: 25 }} // start state
+                animate={{ opacity: 1, y: 0 }} // end state
+                transition={{
+                  duration: 0.6,
+                  delay: 0,
+                  ease: [0.6, -0.05, 0.01, 0.99],
+                }}
+                exit={{
+                  opacity: 0,
+                  y: -10,
+                  transition: { duration: 0.8, ease: [0.6, -0.05, 0.01, 0.99] },
+                }}
+              >
+                <Button
+                  rightIcon={<Icon as={FiChevronRight} />}
+                  colorScheme="brand"
+                  width={100}
+                  onClick={handleGuess}
+                  borderRadius={20}
+                  _hover={{
+                    shadow: "lg",
+                    transform: "translateY(-5px)",
+                    transition: "0.2s",
+                  }}
+                >
+                  Next
+                </Button>
+              </motion.div>
+            ) : (
+              <Box width={100} />
+            )}
+          </AnimatePresence>
         </HStack>
       </motion.div>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay bg="rgba(0,0,0,0.75)" />
+      <Modal
+        isOpen={isOpen}
+        onClose={() => {
+          onClose(); // close modal
+          if (progression < 4) setProgression(progression + 1);
+          else setStage("postGame");
+        }}
+      >
+        <ModalOverlay bg="rgba(0,0,0,0.85)" />
         <ModalContent bg="none" boxShadow="none">
-          <ModalHeader color="white">{progression + 1}/5</ModalHeader>
           <ModalBody>
             <ScoreModal
               userGuess={guess}
