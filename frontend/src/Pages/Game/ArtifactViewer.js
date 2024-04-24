@@ -7,16 +7,15 @@ import {
   Box,
   Text,
   Center,
-  Icon,
 } from "@chakra-ui/react";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
-import { FiZoomIn } from "react-icons/fi";
 
 export default function ArtifactViewer({ gameObjects, progression }) {
   const [bigImgSrc, setBigImgSrc] = useState(gameObjects[0]["primaryImage"]);
   const [loading, setLoading] = useState(true);
 
+  // slight delay for transition animation
   useEffect(() => {
     setLoading(true);
     setBigImgSrc(gameObjects[progression]["primaryImage"]);

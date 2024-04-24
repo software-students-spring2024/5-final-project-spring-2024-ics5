@@ -15,7 +15,7 @@ export default function GameProgress({
   setProgression,
 }) {
   return (
-    <HStack gap={10} position="absolute" top={20}>
+    <HStack gap={10} position="absolute" top={10}>
       <motion.div
         initial={{ opacity: 0, x: 15 }} // start state
         animate={{ opacity: 1, x: 0 }} // end state
