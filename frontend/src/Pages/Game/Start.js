@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { VStack, Center, Text, Button } from "@chakra-ui/react";
 import { AnimatePresence } from "framer-motion";
 
@@ -17,8 +17,10 @@ export default function Start() {
   // game state to be shared by all game pages
   const [gameState, setGameState] = useState({
     gameObjects: [],
-    guesses: [1500, 1500, 1500, 1500, 1500],
-    playerGuessed: [true, false, false, false, false],
+    guesses: [0, 0, 0, 0, 0],
+    playerGuessed: [false, false, false, false, false],
+    roundScores: [0, 0, 0, 0, 0],
+    score: 0,
   });
 
   return (
@@ -33,7 +35,7 @@ export default function Start() {
               setGameState={setGameState}
             />
           )}
-          {stage == "postgame" && <></>}
+          {stage == "postGame" && <Text fontSize={12}>post game</Text>}
         </AnimatePresence>
       </Center>
     </VStack>

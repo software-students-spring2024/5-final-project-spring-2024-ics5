@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { VStack, Center, Text, Spinner } from "@chakra-ui/react";
+import { VStack, Center, Text, Spinner, useDisclosure } from "@chakra-ui/react";
 
 // import components
 import ArtifactViewer from "./ArtifactViewer";
@@ -93,6 +93,8 @@ export default function Game({ setStage, gameState, setGameState }) {
         gameState={gameState}
         setGameState={setGameState}
         progression={progression}
+        setProgression={setProgression}
+        setStage={setStage}
       />
     </VStack>
   );
