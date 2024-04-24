@@ -75,12 +75,7 @@ export default function Game({ setStage, gameState, setGameState }) {
   return (
     <VStack gap={10}>
       {/* top legend */}
-      <GameProgress
-        gameState={gameState}
-        setGameState={setGameState}
-        progression={progression}
-        setProgression={setProgression}
-      />
+      <GameProgress gameState={gameState} progression={progression} />
 
       {/* main content */}
       <ArtifactViewer

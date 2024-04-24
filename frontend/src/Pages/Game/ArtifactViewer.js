@@ -7,9 +7,12 @@ import {
   Box,
   Text,
   Center,
+  Icon,
 } from "@chakra-ui/react";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
+import FadeInUpBox from "../../Components/FadeUp";
+import { FiZoomIn } from "react-icons/fi";
 
 export default function ArtifactViewer({ gameObjects, progression }) {
   const [bigImgSrc, setBigImgSrc] = useState(gameObjects[0]["primaryImage"]);
@@ -25,17 +28,8 @@ export default function ArtifactViewer({ gameObjects, progression }) {
   }, [progression]);
 
   return (
-    <HStack gap={5}>
-      {/* additional images */}
-      <VStack
-        maxH="500px"
-        overflowY="auto"
-        style={{ scrollBarWidth: "none", msOverflowStyle: "none" }}
-      >
-        <VStack gap={5}></VStack>
-      </VStack>
-
-      <HStack>
+    <HStack gap={5} pb={10}>
+      <VStack>
         {/* image */}
         {loading ? (
           <Box h={400} w={400}>
@@ -44,11 +38,19 @@ export default function ArtifactViewer({ gameObjects, progression }) {
             </Center>
           </Box>
         ) : (
-          <Zoom zoomMargin={400}>
-            <Image src={bigImgSrc} maxW={400} maxH={400} objectFit="contain" />
+          <Zoom zoomMargin={200}>
+            <Image src={bigImgSrc} w={400} h={400} objectFit="cover" />
           </Zoom>
         )}
-      </HStack>
+        <FadeInUpBox delay={2}>
+          <HStack mt={2}>
+            <Icon as={FiZoomIn} color="gray.500" fontSize={14} />
+            <Text color="gray.500" fontSize={14}>
+              Click image to enlarge
+            </Text>
+          </HStack>
+        </FadeInUpBox>
+      </VStack>
 
       {/* image description */}
       <VStack
@@ -70,7 +72,8 @@ export default function ArtifactViewer({ gameObjects, progression }) {
               color="brand.700"
               fontFamily="monospace"
             >
-              {gameObjects[progression]["title"]}
+              {gameObjects[progression]["title"].substring(0, 75)}
+              {gameObjects[progression]["title"].length >= 75 && "..."}
             </Text>
           </VStack>
         )}
@@ -85,7 +88,9 @@ export default function ArtifactViewer({ gameObjects, progression }) {
               color="brand.700"
               fontFamily="monospace"
             >
-              {gameObjects[progression]["artistDisplayName"]}
+              {gameObjects[progression]["artistDisplayName"].substring(0, 50)}
+              {gameObjects[progression]["artistDisplayName"].length >= 50 &&
+                "..."}
             </Text>
           </VStack>
         )}
@@ -100,7 +105,8 @@ export default function ArtifactViewer({ gameObjects, progression }) {
               color="brand.700"
               fontFamily="monospace"
             >
-              {gameObjects[progression]["medium"]}
+              {gameObjects[progression]["medium"].substring(0, 75)}
+              {gameObjects[progression]["medium"].length >= 75 && "..."}
             </Text>
           </VStack>
         )}

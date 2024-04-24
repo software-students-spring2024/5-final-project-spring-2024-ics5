@@ -1,9 +1,14 @@
-import { Center, VStack, Text, Icon, HStack } from "@chakra-ui/react";
+import { Center, VStack, Text, Icon, HStack, Button } from "@chakra-ui/react";
 import FadeInUpBox from "./FadeUp";
 import CountUp from "react-countup";
-import { FiMousePointer } from "react-icons/fi";
+import { FiChevronRight, FiMousePointer } from "react-icons/fi";
 
-export default function ScoreModal({ userGuess, gameState, progression }) {
+export default function ScoreModal({
+  userGuess,
+  gameState,
+  progression,
+  onClose,
+}) {
   const delay = 0.2;
 
   return (
@@ -15,7 +20,7 @@ export default function ScoreModal({ userGuess, gameState, progression }) {
               You Answered
             </Text>
             <Text fontFamily="monospace" fontSize={36} color="white">
-              {userGuess}
+              <YearEra year={userGuess} />
             </Text>
           </VStack>
         </FadeInUpBox>
@@ -25,7 +30,9 @@ export default function ScoreModal({ userGuess, gameState, progression }) {
               Correct Answer
             </Text>
             <Text fontFamily="monospace" fontSize={36} color="white">
-              {gameState["gameObjects"][progression]["objectEndDate"]}
+              <YearEra
+                year={gameState["gameObjects"][progression]["objectEndDate"]}
+              />
             </Text>
           </VStack>
         </FadeInUpBox>
@@ -42,12 +49,12 @@ export default function ScoreModal({ userGuess, gameState, progression }) {
               }
             >
               <HStack>
-                <Text fontSize={36}>+</Text>
+                <Text fontSize={24}>+</Text>
                 <CountUp
                   end={gameState["roundScores"][progression]}
                   delay={1.2}
                   style={{
-                    fontSize: 36,
+                    fontSize: 24,
                     color: "inherit",
                     fontFamily: "monospace",
                     fontWeight: 600,
@@ -57,6 +64,9 @@ export default function ScoreModal({ userGuess, gameState, progression }) {
             </Text>
             <Text color="green.300">
               <CountUp
+                start={
+                  gameState["score"] - gameState["roundScores"][progression]
+                }
                 end={gameState["score"]}
                 delay={1.2}
                 style={{
@@ -70,14 +80,35 @@ export default function ScoreModal({ userGuess, gameState, progression }) {
           </VStack>
         </FadeInUpBox>
         <FadeInUpBox delay={delay + 1.5}>
-          <VStack mt={20} gap={5}>
-            <Icon as={FiMousePointer} boxSize={10} color="white" />
-            <Text color="white" fontSize={18}>
-              Click anywhere to continue.
-            </Text>
-          </VStack>
+          <Button
+            borderRadius={20}
+            colorScheme="brand"
+            fontSize={18}
+            boxShadow="lg"
+            _hover={{
+              shadow: "lg",
+              transform: "translateY(-5px)",
+              transition: "0.2s",
+            }}
+            fontWeight="400"
+            rightIcon={<Icon as={FiChevronRight} />}
+            onClick={onClose}
+          >
+            {progression < 4 && "Continue"}
+            {progression == 4 && "See Score"}
+          </Button>
         </FadeInUpBox>
       </VStack>
     </Center>
+  );
+}
+
+export function YearEra({ year }) {
+  const era = year >= 0 ? "C.E." : "B.C.E.";
+
+  return (
+    <span>
+      {year > 0 ? year : year * -1} {era}
+    </span>
   );
 }

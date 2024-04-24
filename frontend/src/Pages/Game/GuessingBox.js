@@ -25,6 +25,7 @@ export default function GuessingBox({
   setStage,
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isCE, setIsCE] = useState(true);
 
   const handleGuess = () => {
     // validate input
@@ -32,17 +33,24 @@ export default function GuessingBox({
       return;
     }
 
+    var playerGuess = 0;
+    if (!isCE) {
+      playerGuess = -1 * guess;
+      setGuess(-1 * guess);
+    } else playerGuess = 1 * guess;
+
     // get prev game state
     const playerGuessed = structuredClone(gameState["playerGuessed"]);
     playerGuessed[progression] = true; // set current progression to true
 
     const guessNumbers = structuredClone(gameState["guesses"]);
-    guessNumbers[progression] = guess;
+    guessNumbers[progression] = playerGuess;
 
     // calculate round score
     var roundScore = 0;
     const difference = Math.abs(
-      gameState["gameObjects"][progression]["objectEndDate"] - parseInt(guess)
+      gameState["gameObjects"][progression]["objectEndDate"] -
+        parseInt(playerGuess)
     );
     if (difference <= 1000) {
       roundScore = 1000 - difference;
@@ -86,29 +94,70 @@ export default function GuessingBox({
         <HStack gap={10}>
           <Box width={100}></Box>
           <VStack gap={5}>
-            <Input
-              width={175}
-              height={50}
-              placeholder="0000"
-              textAlign="center"
-              fontFamily="monospace"
+            <HStack
+              alignItems="center"
+              gap={0}
               borderRadius={20}
-              bg="white"
-              variant="outlined"
-              fontSize={36}
               _hover={{
-                shadow: "lg",
                 transform: "translateY(-5px)",
+                boxShadow: "lg",
                 transition: "0.2s",
               }}
-              type="number"
-              value={guess}
-              onChange={(e) => {
-                setGuess(e.target.value);
-              }}
-            ></Input>
+            >
+              <Input
+                autoFocus
+                borderBottomLeftRadius={20}
+                borderTopLeftRadius={20}
+                borderTopRightRadius={0}
+                borderBottomRightRadius={0}
+                variant="unstyled"
+                width={150}
+                height={50}
+                placeholder="0000"
+                textAlign="center"
+                fontFamily="monospace"
+                bg="white"
+                fontSize={36}
+                type="number"
+                value={guess}
+                onChange={(e) => {
+                  if (e.target.value.toString().charAt(0) == "-") {
+                    setIsCE(false);
+                    setGuess(e.target.value.substring(1));
+                  } else setGuess(e.target.value);
+                }}
+              />
+              <VStack
+                bg="white"
+                height={50}
+                width={100}
+                justifyContent="center"
+                borderTopRightRadius={20}
+                borderBottomRightRadius={20}
+                borderLeftWidth={1}
+                _hover={{
+                  cursor: "pointer",
+                  bg: "green.50",
+                  transition: "0.2s",
+                }}
+                onClick={() => {
+                  setIsCE(!isCE);
+                }}
+              >
+                <Text
+                  fontSize={18}
+                  fontFamily="monospace"
+                  fontWeight="600"
+                  userSelect="none"
+                >
+                  {isCE ? "C.E." : "B.C.E."}
+                </Text>
+              </VStack>
+            </HStack>
             <Text>Guess the year!</Text>
           </VStack>
+
+          {/* next button */}
           <AnimatePresence>
             {guess != "" ? (
               <motion.div
@@ -147,14 +196,7 @@ export default function GuessingBox({
         </HStack>
       </motion.div>
 
-      <Modal
-        isOpen={isOpen}
-        onClose={() => {
-          onClose(); // close modal
-          if (progression < 4) setProgression(progression + 1);
-          else setStage("postGame");
-        }}
-      >
+      <Modal isOpen={isOpen} closeOnOverlayClick={false}>
         <ModalOverlay bg="rgba(0,0,0,0.85)" />
         <ModalContent bg="none" boxShadow="none">
           <ModalBody>
@@ -162,6 +204,11 @@ export default function GuessingBox({
               userGuess={guess}
               gameState={gameState}
               progression={progression}
+              onClose={() => {
+                onClose(); // close modal
+                if (progression < 4) setProgression(progression + 1);
+                else setStage("postGame");
+              }}
             />
           </ModalBody>
         </ModalContent>
