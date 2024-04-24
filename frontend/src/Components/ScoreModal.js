@@ -20,7 +20,7 @@ export default function ScoreModal({
               You Answered
             </Text>
             <Text fontFamily="monospace" fontSize={36} color="white">
-              {userGuess}
+              <YearEra year={userGuess} />
             </Text>
           </VStack>
         </FadeInUpBox>
@@ -30,7 +30,9 @@ export default function ScoreModal({
               Correct Answer
             </Text>
             <Text fontFamily="monospace" fontSize={36} color="white">
-              {gameState["gameObjects"][progression]["objectEndDate"]}
+              <YearEra
+                year={gameState["gameObjects"][progression]["objectEndDate"]}
+              />
             </Text>
           </VStack>
         </FadeInUpBox>
@@ -62,6 +64,9 @@ export default function ScoreModal({
             </Text>
             <Text color="green.300">
               <CountUp
+                start={
+                  gameState["score"] - gameState["roundScores"][progression]
+                }
                 end={gameState["score"]}
                 delay={1.2}
                 style={{
@@ -95,5 +100,15 @@ export default function ScoreModal({
         </FadeInUpBox>
       </VStack>
     </Center>
+  );
+}
+
+export function YearEra({ year }) {
+  const era = year >= 0 ? "C.E." : "B.C.E.";
+
+  return (
+    <span>
+      {year > 0 ? year : year * -1} {era}
+    </span>
   );
 }

@@ -71,7 +71,7 @@ export default function Start() {
 
 const Menu = ({ setStage }) => {
   return (
-    <VStack gap={5}>
+    <VStack gap={3}>
       <FadeInUpBox delay={0}>
         <Heading fontSize={64} color="brand.700" fontWeight="900" mb={10}>
           gamemode
