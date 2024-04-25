@@ -9,16 +9,17 @@ import {
   InputLeftElement,
   Text,
 } from "@chakra-ui/react";
-import { FiArrowLeft, FiArrowRight, FiLock, FiUser } from "react-icons/fi";
+import { FiArrowLeft, FiCheck, FiLock, FiUser } from "react-icons/fi";
 import FadeInUpBox from "../../Components/FadeUp";
 import { AnimatePresence } from "framer-motion";
 
-const Login = ({ setStage }) => {
+const Signup = ({ setStage }) => {
   const delay = 0;
 
   const [error, setError] = useState(""); // error for input handling
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const loginValidated = () => {
     if (username == "") {
@@ -27,12 +28,15 @@ const Login = ({ setStage }) => {
     } else if (password == "") {
       setError("Please enter a password!");
       return false;
+    } else if (confirmPassword != password) {
+      setError("Please make sure the two passwords match!");
+      return false;
     }
     return true;
   };
 
-  async function login() {
-    return fetch("/login", {
+  async function signup() {
+    return fetch("/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,18 +51,18 @@ const Login = ({ setStage }) => {
   }
 
   // handle login
-  const handleLogin = async () => {
+  const handleSignup = async () => {
     // handle error
     const isValidLogin = loginValidated();
     if (!isValidLogin) return;
 
-    const resp = await login();
+    const resp = await signup();
     if (resp["error"]) {
-      setError("Invalid username or password.");
+      setError("Username already exists.");
     } else {
-      console.log("Logged in successfully as: ", username);
+      console.log("Signed up successfully as:", username);
       window.sessionStorage.setItem("user", username);
-      setStage(""); //go home
+      setStage(""); // go home
     }
   };
 
@@ -114,41 +118,49 @@ const Login = ({ setStage }) => {
               }}
             />
           </InputGroup>
+
+          {/* confirm password */}
+          <InputGroup>
+            <InputLeftElement>
+              <Icon color="brand.500" as={FiLock} />
+            </InputLeftElement>
+            <Input
+              variant="outlined"
+              placeholder="confirm password"
+              type="password"
+              width="100%"
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+                setError("");
+              }}
+            />
+          </InputGroup>
         </VStack>
       </FadeInUpBox>
 
       <FadeInUpBox delay={delay + 0.2}>
-        <HStack gap={5} justifyContent="left" mt={10}>
+        <HStack gap={5} justifyContent="left" mt={5}>
           <Button
             colorScheme="brand"
             borderRadius={20}
-            rightIcon={<Icon as={FiArrowRight} />}
+            rightIcon={<Icon as={FiCheck} />}
             _hover={{
               shadow: "lg",
               transform: "translateY(-5px)",
               transition: "0.2s",
             }}
-            onClick={handleLogin}
-          >
-            Login
-          </Button>
-          <Button
-            color="brand.700"
-            variant="text"
-            onClick={() => {
-              setStage("signup");
-            }}
+            onClick={handleSignup}
           >
             Sign Up
           </Button>
         </HStack>
       </FadeInUpBox>
 
-      <VStack mt={10} height={20}>
+      <VStack mt={10} width={250}>
         <AnimatePresence>
           {error !== "" && (
             <FadeInUpBox key="errorText">
-              <Text color="red.500" fontWeight="600">
+              <Text color="red.500" fontWeight="600" textAlign="center">
                 {error}
               </Text>
             </FadeInUpBox>
@@ -159,4 +171,4 @@ const Login = ({ setStage }) => {
   );
 };
 
-export default Login;
+export default Signup;

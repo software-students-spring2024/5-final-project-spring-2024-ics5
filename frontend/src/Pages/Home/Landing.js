@@ -1,21 +1,24 @@
-import { VStack, Heading, Text, Button, Icon, HStack } from "@chakra-ui/react";
-import { FiSmile } from "react-icons/fi";
+import { VStack, Text, Button, HStack, Icon } from "@chakra-ui/react";
 import FadeInUpBox from "../../Components/FadeUp";
 
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { FiUser } from "react-icons/fi";
 
 const Landing = ({ setStage }) => {
-  const delay = 0.5;
+  const delay = 0.2;
   const navigate = useNavigate();
+
+  const [user, setUser] = useState(""); // user recoil state
+  useEffect(() => {
+    // set user if logged in
+    if (window.sessionStorage.getItem("user")) {
+      setUser(window.sessionStorage.getItem("user"));
+    }
+  }, [user]);
 
   return (
     <VStack position="absolute">
-      <FadeInUpBox delay={delay}>
-        <Heading fontSize={64} color="brand.700" fontWeight="900">
-          met guessr
-        </Heading>
-      </FadeInUpBox>
-
       <FadeInUpBox delay={delay + 0.1}>
         <Text
           fontSize="lg"
@@ -35,54 +38,125 @@ const Landing = ({ setStage }) => {
           borderRadius={25}
           size="lg"
           colorScheme="brand"
-          rightIcon={<Icon as={FiSmile} />}
           _hover={{
             shadow: "lg",
             transform: "translateY(-5px)",
             transition: "0.2s",
           }}
           onClick={() => {
-            setStage("NA");
-            setTimeout(() => {
-              navigate("/game");
-            }, 1000);
+            navigate("/game");
           }}
         >
-          Play as Guest
+          Play {user == "" && "as Guest"}
+        </Button>
+      </FadeInUpBox>
+
+      <FadeInUpBox delay={delay + 0.25}>
+        <Button
+          mt={5}
+          borderRadius={20}
+          color="brand.700"
+          variant="text"
+          _hover={{
+            color: "brand.500",
+          }}
+          onClick={() => {
+            setStage("howToPlay");
+          }}
+        >
+          Leaderboard
         </Button>
       </FadeInUpBox>
 
       <FadeInUpBox delay={delay + 0.3}>
-        <HStack mt={10}>
-          <Button
-            borderRadius={20}
-            colorScheme="brand"
-            _hover={{
-              shadow: "lg",
-              transform: "translateY(-5px)",
-              transition: "0.2s",
-            }}
-            onClick={() => {
-              setStage("login");
-            }}
-          >
-            Login
-          </Button>
-          <Button
-            borderRadius={20}
-            color="brand.700"
-            variant="text"
-            _hover={{
-              color: "brand.500",
-            }}
-            onClick={() => {
-              setStage("login");
-            }}
-          >
-            Sign Up
-          </Button>
-        </HStack>
+        <Button
+          borderRadius={20}
+          color="brand.700"
+          variant="text"
+          _hover={{
+            color: "brand.500",
+          }}
+          onClick={() => {
+            setStage("howToPlay");
+          }}
+        >
+          How to play?
+        </Button>
       </FadeInUpBox>
+
+      {user == "" && (
+        <FadeInUpBox delay={delay + 0.35} key="loginButtons">
+          <HStack mt={20}>
+            <Button
+              borderRadius={20}
+              colorScheme="brand"
+              _hover={{
+                shadow: "lg",
+                transform: "translateY(-5px)",
+                transition: "0.2s",
+              }}
+              onClick={() => {
+                setStage("login");
+              }}
+            >
+              Login
+            </Button>
+            <Button
+              borderRadius={20}
+              color="brand.700"
+              variant="text"
+              _hover={{
+                color: "brand.500",
+              }}
+              onClick={() => {
+                setStage("signup");
+              }}
+            >
+              Sign Up
+            </Button>
+          </HStack>
+        </FadeInUpBox>
+      )}
+
+      {user !== "" && (
+        <VStack key="loggedInUser" gap={0}>
+          <FadeInUpBox delay={delay + 0.35}>
+            <VStack mb={2}>
+              <Icon
+                as={FiUser}
+                color="brand.700"
+                fontSize={26}
+                mt={10}
+                mb={5}
+              />
+              <HStack gap={1}>
+                <Text fontSize={16} color="brand.700" fontWeight={600}>
+                  Logged in as
+                </Text>
+                <Text color="brand.500" fontSize={16} fontWeight={600}>
+                  {user}
+                </Text>
+              </HStack>
+            </VStack>
+          </FadeInUpBox>
+          <FadeInUpBox delay={delay + 0.4}>
+            <Button variant="text" mt={0} onClick={() => {}}>
+              View Profile
+            </Button>
+          </FadeInUpBox>
+          <FadeInUpBox delay={delay + 0.45}>
+            <Button
+              variant="text"
+              onClick={() => {
+                window.sessionStorage.removeItem("user");
+                setUser("");
+              }}
+            >
+              Log out
+            </Button>
+          </FadeInUpBox>
+        </VStack>
+      )}
     </VStack>
   );
 };

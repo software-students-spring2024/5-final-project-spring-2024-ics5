@@ -15,7 +15,8 @@ import { AnimatePresence } from "framer-motion";
 import FadeInUpBox from "../../Components/FadeUp";
 import Game from "./Game";
 import Results from "../PostGame/Results";
-import { FiChevronRight } from "react-icons/fi";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 export default function Start() {
   /**
@@ -70,6 +71,8 @@ export default function Start() {
 }
 
 const Menu = ({ setStage }) => {
+  const navigate = useNavigate();
+
   return (
     <VStack gap={3}>
       <FadeInUpBox delay={0}>
@@ -81,7 +84,7 @@ const Menu = ({ setStage }) => {
       <FadeInUpBox delay={0.2}>
         <HStack
           p={5}
-          gap={5}
+          gap={7}
           width={540}
           borderRadius={20}
           bg="rgba(255,255,255,0.75)"
@@ -97,12 +100,12 @@ const Menu = ({ setStage }) => {
           }}
         >
           <Image src="/icons/temple.png" boxSize={20} />
-          <VStack alignItems="left">
-            <Text fontSize={20} fontWeight="600">
+          <VStack alignItems="left" width="100%">
+            <Text fontSize={18} fontWeight="600">
               Classic
             </Text>
             <Text fontSize={16} fontWeight="400">
-              Play the regular mode with all artifacts from the MET included.
+              All artifacts from the Met.
             </Text>
           </VStack>
           <Icon as={FiChevronRight} fontSize={24} />
@@ -112,7 +115,7 @@ const Menu = ({ setStage }) => {
       <FadeInUpBox delay={0.4}>
         <HStack
           p={5}
-          gap={5}
+          gap={7}
           width={540}
           borderRadius={20}
           bg="rgba(255,255,255,0.75)"
@@ -128,12 +131,12 @@ const Menu = ({ setStage }) => {
           }}
         >
           <Image src="/icons/bamboo.png" boxSize={20} />
-          <VStack alignItems="left">
-            <Text fontSize={20} fontWeight="600">
-              Asian
+          <VStack alignItems="left" width="100%">
+            <Text fontSize={18} fontWeight="600">
+              Asian Art
             </Text>
             <Text fontSize={16} fontWeight="400">
-              Play the game but with artifacts from the Asian Art Wing only.
+              Asian Art Department from the Met.
             </Text>
           </VStack>
           <Icon as={FiChevronRight} fontSize={24} />
@@ -143,7 +146,7 @@ const Menu = ({ setStage }) => {
       <FadeInUpBox delay={0.6}>
         <HStack
           p={5}
-          gap={5}
+          gap={7}
           width={540}
           borderRadius={20}
           bg="rgba(255,255,255,0.75)"
@@ -159,8 +162,8 @@ const Menu = ({ setStage }) => {
           }}
         >
           <Image src="/icons/knight-on-horseback.png" boxSize={20} />
-          <VStack alignItems="left">
-            <Text fontSize={20} fontWeight="600">
+          <VStack alignItems="left" width="100%">
+            <Text fontSize={18} fontWeight="600">
               Medieval
             </Text>
             <Text fontSize={16} fontWeight="400">
@@ -175,7 +178,7 @@ const Menu = ({ setStage }) => {
       <FadeInUpBox delay={0.8}>
         <HStack
           p={5}
-          gap={5}
+          gap={7}
           width={540}
           borderRadius={20}
           bg="rgba(255,255,255,0.75)"
@@ -191,8 +194,8 @@ const Menu = ({ setStage }) => {
           }}
         >
           <Image src="/icons/cello.png" boxSize={20} />
-          <VStack alignItems="left">
-            <Text fontSize={20} fontWeight="600">
+          <VStack alignItems="left" width="100%">
+            <Text fontSize={18} fontWeight="600">
               Musical Instruments
             </Text>
             <Text fontSize={16} fontWeight="400">
@@ -201,6 +204,26 @@ const Menu = ({ setStage }) => {
             </Text>
           </VStack>
           <Icon as={FiChevronRight} fontSize={24} />
+        </HStack>
+      </FadeInUpBox>
+
+      <FadeInUpBox delay={1.0}>
+        <HStack mt={5}>
+          <Button
+            colorScheme="brand"
+            borderRadius={20}
+            leftIcon={<Icon as={FiChevronLeft} />}
+            onClick={() => {
+              navigate("/");
+            }}
+            _hover={{
+              transition: "0.2s",
+              shadow: "lg",
+              transform: "translateY(-5px)",
+            }}
+          >
+            Back Home
+          </Button>
         </HStack>
       </FadeInUpBox>
     </VStack>

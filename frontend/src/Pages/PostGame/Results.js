@@ -10,13 +10,14 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import CountUp from "react-countup";
-import { FiCheck, FiX } from "react-icons/fi";
+import { FiCheck, FiUser, FiX } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 import FadeInUpBox from "../../Components/FadeUp";
 import { YearEra } from "../../Components/ScoreModal";
 
 export default function Results({ gameState, setStage }) {
   const [congratsText, setCongratsText] = useState("");
-
+  const navigate = useNavigate();
   const delay = 0.2;
 
   useEffect(() => {
@@ -26,6 +27,15 @@ export default function Results({ gameState, setStage }) {
     else if (gameState["score"] >= 500) setCongratsText("You can do better!");
     else setCongratsText(":(");
   }, [gameState]);
+
+  const [user, setUser] = useState("");
+
+  useEffect(() => {
+    // set user if logged in
+    if (window.sessionStorage.getItem("user")) {
+      setUser(window.sessionStorage.getItem("user"));
+    }
+  }, [user]);
 
   return (
     <VStack gap={40}>
@@ -134,31 +144,72 @@ export default function Results({ gameState, setStage }) {
         {/* button menu */}
         <VStack mt={10}>
           <FadeInUpBox delay={delay + 0.6}>
-            <Button
-              borderRadius={20}
-              px={5}
-              colorScheme="brand"
-              _hover={{
-                shadow: "lg",
-                transform: "translateY(-5px)",
-                transition: "0.2s",
-              }}
-              onClick={() => {
-                setStage("playAgain");
-              }}
-            >
-              Play Again
-            </Button>
+            <HStack>
+              <Button
+                variant="text"
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
+                Back Home
+              </Button>
+              <Button
+                borderRadius={20}
+                px={5}
+                colorScheme="brand"
+                _hover={{
+                  shadow: "lg",
+                  transform: "translateY(-5px)",
+                  transition: "0.2s",
+                }}
+                onClick={() => {
+                  setStage("playAgain");
+                }}
+              >
+                Play Again
+              </Button>
+            </HStack>
           </FadeInUpBox>
-          <FadeInUpBox delay={delay + 0.7}>
-            <Button>Play Again</Button>
-          </FadeInUpBox>
-          <FadeInUpBox delay={delay + 0.8}>
-            <Button>Play Again</Button>
-          </FadeInUpBox>
-          <FadeInUpBox delay={delay + 0.9}>
-            <Button>Play Again</Button>
-          </FadeInUpBox>
+
+          {user !== "" && (
+            <VStack key="loggedInUser" gap={0} mt={5}>
+              <FadeInUpBox delay={delay + 0.7}>
+                <VStack mb={2}>
+                  <Icon
+                    as={FiUser}
+                    color="brand.700"
+                    fontSize={26}
+                    mt={10}
+                    mb={5}
+                  />
+                  <HStack gap={1}>
+                    <Text fontSize={16} color="brand.700" fontWeight={600}>
+                      Logged in as
+                    </Text>
+                    <Text color="brand.500" fontSize={16} fontWeight={600}>
+                      {user}
+                    </Text>
+                  </HStack>
+                </VStack>
+              </FadeInUpBox>
+              <FadeInUpBox delay={delay + 0.8}>
+                <Button variant="text" mt={0} onClick={() => {}}>
+                  View Profile
+                </Button>
+              </FadeInUpBox>
+              <FadeInUpBox delay={delay + 0.9}>
+                <Button
+                  variant="text"
+                  onClick={() => {
+                    window.sessionStorage.removeItem("user");
+                    setUser("");
+                  }}
+                >
+                  Log out
+                </Button>
+              </FadeInUpBox>
+            </VStack>
+          )}
         </VStack>
       </VStack>
     </VStack>
