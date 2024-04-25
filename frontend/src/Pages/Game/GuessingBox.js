@@ -154,7 +154,9 @@ export default function GuessingBox({
                 </Text>
               </VStack>
             </HStack>
-            <Text>Guess the year!</Text>
+            <Text fontSize={16} color="gray.500">
+              Guess the year!
+            </Text>
           </VStack>
 
           {/* next button */}

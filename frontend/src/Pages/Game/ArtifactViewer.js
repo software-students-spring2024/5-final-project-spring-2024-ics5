@@ -39,7 +39,7 @@ export default function ArtifactViewer({ gameObjects, progression }) {
           </Box>
         ) : (
           <Zoom zoomMargin={200}>
-            <Image src={bigImgSrc} w={400} h={400} objectFit="cover" />
+            <Image src={bigImgSrc} maxW={400} maxH={500} objectFit="cover" />
           </Zoom>
         )}
         <FadeInUpBox delay={2}>
@@ -113,7 +113,7 @@ export default function ArtifactViewer({ gameObjects, progression }) {
         {gameObjects[progression]["country"] && (
           <VStack alignItems="left">
             <Text color="gray.500" fontFamily="monospace">
-              Medium
+              Country
             </Text>
             <Text
               fontSize={18}

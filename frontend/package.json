@@ -47,8 +47,5 @@
     ]
   },
   "main": "index.js",
-  "license": "MIT",
-  "devDependencies": {
-    "globals": "^15.0.0"
-  }
+  "license": "MIT"
 }
