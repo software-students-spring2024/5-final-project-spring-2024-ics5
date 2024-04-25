@@ -32,7 +32,7 @@ const Login = ({ setStage }) => {
   };
 
   async function login() {
-    return fetch("/login", {
+    return fetch("/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -53,28 +53,33 @@ const Landing = ({ setStage }) => {
 
       <FadeInUpBox delay={delay + 0.25}>
         <Button
-          mt={5}
+          mt={2}
+          size="md"
+          variant="outline"
           borderRadius={20}
-          color="brand.700"
-          variant="text"
+          colorScheme={"brand"}
           _hover={{
-            color: "brand.500",
+            bg: "rgba(255,255,255,0.5)",
+            transition: "0.2s",
           }}
           onClick={() => {
-            setStage("howToPlay");
+            navigate("/leaderboard");
           }}
         >
-          Leaderboard
+          View Leaderboard
         </Button>
       </FadeInUpBox>
 
       <FadeInUpBox delay={delay + 0.3}>
         <Button
+          mt={2}
+          size="md"
+          variant="outline"
           borderRadius={20}
-          color="brand.700"
-          variant="text"
+          colorScheme={"brand"}
           _hover={{
-            color: "brand.500",
+            bg: "rgba(255,255,255,0.5)",
+            transition: "0.2s",
           }}
           onClick={() => {
             setStage("howToPlay");

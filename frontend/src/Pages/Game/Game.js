@@ -23,7 +23,7 @@ export default function Game({ setStage, gameState, setGameState }) {
 
   useEffect(() => {
     const createGame = async () => {
-      fetch("/create-game")
+      fetch("/api/create-game")
         .then((response) => {
           if (!response.ok) throw new Error("Network response was not ok");
           return response.json();
