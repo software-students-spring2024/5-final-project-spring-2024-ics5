@@ -7,6 +7,8 @@ import {
   HStack,
   Image,
   Icon,
+  Spinner,
+  Center,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import CountUp from "react-countup";
@@ -17,9 +19,14 @@ import { YearEra } from "../../Components/ScoreModal";
 
 export default function Results({ gameState, setStage }) {
   const [congratsText, setCongratsText] = useState("");
+
+  const [user, setUser] = useState("");
+  const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
   const delay = 0.2;
 
+  // set congrats text
   useEffect(() => {
     if (gameState["score"] >= 4000) setCongratsText("Fantastic job!");
     else if (gameState["score"] >= 2500) setCongratsText("Good work!");
@@ -28,14 +35,50 @@ export default function Results({ gameState, setStage }) {
     else setCongratsText(":(");
   }, [gameState]);
 
-  const [user, setUser] = useState("");
-
+  // set user if logged in
   useEffect(() => {
-    // set user if logged in
     if (window.sessionStorage.getItem("user")) {
       setUser(window.sessionStorage.getItem("user"));
     }
   }, [user]);
+
+  // function to add score to leaderboard
+  async function addScore(username, score) {
+    const response = await fetch("/api/add_score", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username: username, score: score }),
+    });
+    setLoading(false);
+    return response.json();
+  }
+
+  useEffect(() => {
+    // only if logged in
+    if (window.sessionStorage.getItem("user")) {
+      const username = window.sessionStorage.getItem("user");
+
+      const updateData = async () => {
+        const resp = await addScore(username, gameState["score"]);
+      };
+      updateData();
+    }
+  }, []);
+
+  if (loading) {
+    return (
+      <Center>
+        <VStack gap={5}>
+          <Spinner size="lg" color="brand.700" />
+          <Text fontSize="lg" fontWeight="500" color="brand.700">
+            Loading results...
+          </Text>
+        </VStack>
+      </Center>
+    );
+  }
 
   return (
     <VStack gap={40}>
@@ -69,11 +112,30 @@ export default function Results({ gameState, setStage }) {
               / 5000
             </Text>
           </FadeInUpBox>
+
+          <FadeInUpBox delay={delay + 0.3}>
+            <VStack mt={2}>
+              <Button
+                variant="outline"
+                borderRadius={20}
+                colorScheme={"brand"}
+                _hover={{
+                  bg: "rgba(255,255,255,0.5)",
+                  transition: "0.2s",
+                }}
+                onClick={() => {
+                  navigate("/leaderboard");
+                }}
+              >
+                View Leaderboard
+              </Button>
+            </VStack>
+          </FadeInUpBox>
         </VStack>
 
         {/* recap */}
         <FadeInUpBox delay={delay + 0.4}>
-          <HStack mt={10} gap={2}>
+          <HStack mt={5} gap={2}>
             {gameState["gameObjects"].map((obj, index) => {
               return (
                 <Box
@@ -202,7 +264,7 @@ export default function Results({ gameState, setStage }) {
                   variant="text"
                   onClick={() => {
                     window.sessionStorage.removeItem("user");
-                    setUser("");
+                    navigate("/");
                   }}
                 >
                   Log out

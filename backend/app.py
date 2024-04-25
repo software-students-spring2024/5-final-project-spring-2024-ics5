@@ -7,12 +7,14 @@ from flask import Flask, jsonify, request
 import requests
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
+
 
 app = Flask(__name__)
 client = MongoClient('mongodb://localhost:27017/', 27017)
 db = client['metguessr_users']  # Database name
-users = db.users  # Collection name
-
+users = db.users  # users collection
+scores = db.scores # scores collection
 
 def fetch_object_ids():
     """
@@ -28,7 +30,7 @@ def fetch_object_ids():
     print(f"Failed to retrieve data: {response.status_code}")
     return []
     
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/api/login', methods=['GET', 'POST'])
 def login():
     """
     Route that handles logging in.
@@ -45,7 +47,7 @@ def login():
             return jsonify({'error': 'Invalid credentials'}), 401
 
 
-@app.route('/register', methods=['POST'])
+@app.route('/api/register', methods=['POST'])
 def register():
     """
     Route that handles registering a new user.
@@ -62,7 +64,7 @@ def register():
     users.insert_one({'name': username, 'password': hashpass})
     return jsonify({'message': 'User registered successfully'}), 201
 
-@app.route("/create-game", methods=["GET"])
+@app.route("/api/create-game", methods=["GET"])
 def create_game():
     """
     Route that creates a game and generates 5 random artifacts from the met museum.
@@ -98,6 +100,26 @@ def create_game():
             print("Found 5!")
             break
     return jsonify(target)
+
+@app.route('/api/add_score', methods=['POST'])
+def add_score():
+    """
+    Route that adds a score to the leaderboard
+    """
+    username = request.json.get('username')
+    score = request.json.get('score')
+
+    # Add score with timestamp
+    scores.insert_one({'username': username, 'score': score, 'timestamp': datetime.utcnow()})
+    return jsonify({'message': f'Score added for {username}'}), 201
+
+@app.route('/api/get_leaderboard', methods=['GET'])
+def get_scores():
+    """
+    Route that retrieves all scores sorted by score in descending order
+    """
+    all_scores = scores.find().sort('score', -1)
+    return jsonify([{'username': x['username'], 'score': x['score'], 'timestamp': x['timestamp']} for x in all_scores]), 200
 
 
 if __name__ == "__main__":

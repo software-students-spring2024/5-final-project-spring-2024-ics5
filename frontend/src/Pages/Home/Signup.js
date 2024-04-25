@@ -36,7 +36,7 @@ const Signup = ({ setStage }) => {
   };
 
   async function signup() {
-    return fetch("/register", {
+    return fetch("/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
