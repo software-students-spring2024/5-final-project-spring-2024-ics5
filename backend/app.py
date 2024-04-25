@@ -3,11 +3,11 @@ Fetches from met museum api to create game and return data to frontend
 """
 
 import random
+from datetime import datetime
 from flask import Flask, jsonify, request
 import requests
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
 
 
 app = Flask(__name__)
@@ -29,7 +29,7 @@ def fetch_object_ids():
     # catch errors
     print(f"Failed to retrieve data: {response.status_code}")
     return []
-    
+
 @app.route('/api/login', methods=['GET', 'POST'])
 def login():
     """
@@ -39,12 +39,11 @@ def login():
         data = request.get_json() # get input
         username = data.get('username')
         password = data.get('password')
-        
+
         user = users.find_one({'name': username}) # get username from db
         if user and check_password_hash(user['password'], password):
             return jsonify({'message': 'Logged in successfully'}), 200
-        else:
-            return jsonify({'error': 'Invalid credentials'}), 401
+    return jsonify({'error': 'Invalid credentials'}), 401
 
 
 @app.route('/api/register', methods=['POST'])
@@ -119,7 +118,10 @@ def get_scores():
     Route that retrieves all scores sorted by score in descending order
     """
     all_scores = scores.find().sort('score', -1)
-    return jsonify([{'username': x['username'], 'score': x['score'], 'timestamp': x['timestamp']} for x in all_scores]), 200
+    return jsonify([{'username': x['username'],
+                     'score': x['score'], 
+                     'timestamp': x['timestamp']}
+                    for x in all_scores]), 200
 
 
 if __name__ == "__main__":
