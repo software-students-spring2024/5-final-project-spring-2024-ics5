@@ -1,7 +1,7 @@
 """
 Fetches from met museum api to create game and return data to frontend
 """
-
+# pylint: disable=global-statement
 import random
 from datetime import datetime
 from flask import Flask, jsonify, request
@@ -12,9 +12,20 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 client = MongoClient('mongodb://localhost:27017/', 27017)
-db = client['metguessr_users']  # Database name
+app.config['DB_NAME'] = 'metguessr_users'
+db = client[app.config['DB_NAME']]  # Database name
 users = db.users  # users collection
 scores = db.scores # scores collection
+
+def get_db():
+    """
+    Sets up the correct database
+    """
+    global users
+    global scores
+    newdb = client[app.config['DB_NAME']]
+    users = newdb.users
+    scores = newdb.scores
 
 def fetch_object_ids():
     """
@@ -35,6 +46,7 @@ def login():
     """
     Route that handles logging in.
     """
+    get_db()
     if request.method == 'POST':
         data = request.get_json() # get input
         username = data.get('username')
@@ -51,6 +63,7 @@ def register():
     """
     Route that handles registering a new user.
     """
+    get_db()
     data = request.get_json() # get input
     username = data.get('username')
     password = data.get('password')
@@ -68,6 +81,7 @@ def get_user(username):
     """
     Route that retrieves a user by a username, added in the parameter
     """
+    get_db()
     user = users.find_one({'name': username}, {'_id': 0, 'password': 0}) # exclude sensitive info
     if user:
         return jsonify(user), 200
@@ -78,6 +92,7 @@ def get_user_scores(username):
     """
     Fetches the high score and the average score for the specified user.
     """
+    get_db()
     # get highest score
     high_score_data = scores.find_one(
         {'username': username},
@@ -145,6 +160,7 @@ def add_score():
     """
     Route that adds a score to the leaderboard
     """
+    get_db()
     username = request.json.get('username')
     score = request.json.get('score')
 
@@ -157,6 +173,7 @@ def get_scores():
     """
     Route that retrieves all scores sorted by score in descending order
     """
+    get_db()
     all_scores = scores.find().sort('score', -1)
     return jsonify([{'username': x['username'],
                      'score': x['score'], 
@@ -168,6 +185,7 @@ def get_user_games():
     """
     Route that retrieves games for a user
     """
+    get_db()
     username = request.args.get('username')
     user_games = scores.find({'username': username}).sort('timestamp', -1)
     return jsonify([{'username': x['username'],
