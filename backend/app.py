@@ -71,8 +71,7 @@ def get_user(username):
     user = users.find_one({'name': username}, {'_id': 0, 'password': 0}) # exclude sensitive info
     if user:
         return jsonify(user), 200
-    else:
-        return jsonify({'error': 'User not found'}), 404
+    return jsonify({'error': 'User not found'}), 404
     
 @app.route('/api/user_score_stats/<username>', methods=['GET'])
 def get_user_scores(username):
