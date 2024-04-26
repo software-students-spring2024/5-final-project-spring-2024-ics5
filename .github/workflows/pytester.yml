@@ -9,8 +9,15 @@ on:
       - "backend/**"
 
 jobs:
-  pylint-backend:
+  pytest-backend:
     runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+        options: --health-cmd "mongo --eval 'db.runCommand({ping: 1})'" --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
       - name: Checkout repository
@@ -27,6 +34,13 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
           pip install pytest
+      
+      - name: Wait for MongoDB
+        run: |
+          while ! nc -z localhost 27017; do   
+            echo Waiting for MongoDB to start...
+            sleep 1
+          done
 
       - name: Test with Pytest
         working-directory: ./backend
