@@ -78,7 +78,12 @@ export default function Leaderboard({}) {
           {/* leaderboard */}
           <FadeInUpBox delay={0.2}>
             {scores != [] && (
-              <VStack bg="rgba(255,255,255,0.75)" p={5} borderRadius={20}>
+              <VStack
+                bg="rgba(255,255,255,0.75)"
+                p={5}
+                borderRadius={20}
+                height={450}
+              >
                 {scores
                   .slice(page * pageSize, (page + 1) * pageSize)
                   .map((score, index) => {
@@ -128,8 +133,17 @@ export default function Leaderboard({}) {
               </VStack>
             )}
           </FadeInUpBox>
+
+          <FadeInUpBox delay={0.25}>
+            <VStack mt={2}>
+              <Text fontWeight={600} fontSize={16} color="brand.700">
+                {page * pageSize + 1} to {(page + 1) * pageSize}
+              </Text>
+            </VStack>
+          </FadeInUpBox>
+
           <FadeInUpBox delay={0.3}>
-            <HStack mt={5}>
+            <HStack mt={2}>
               <IconButton
                 borderRadius={20}
                 colorScheme="brand"

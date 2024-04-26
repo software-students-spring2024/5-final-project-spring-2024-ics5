@@ -6,7 +6,7 @@ import random
 from datetime import datetime
 from flask import Flask, jsonify, request
 import requests
-from pymongo import MongoClient
+from pymongo import MongoClient, DESCENDING
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -60,8 +60,48 @@ def register():
         return jsonify({'error': 'Username already exists'}), 409
 
     hashpass = generate_password_hash(password, method='pbkdf2:sha256')
-    users.insert_one({'name': username, 'password': hashpass})
+    users.insert_one({'name': username, 'password': hashpass, 'joined': datetime.utcnow()})
     return jsonify({'message': 'User registered successfully'}), 201
+
+@app.route('/api/get_user/<username>', methods=['GET'])
+def get_user(username):
+    """
+    Route that retrieves a user by a username, added in the parameter
+    """
+    user = users.find_one({'name': username}, {'_id': 0, 'password': 0}) # exclude sensitive info
+    if user:
+        return jsonify(user), 200
+    return jsonify({'error': 'User not found'}), 404
+
+@app.route('/api/user_score_stats/<username>', methods=['GET'])
+def get_user_scores(username):
+    """
+    Fetches the high score and the average score for the specified user.
+    """
+    # get highest score
+    high_score_data = scores.find_one(
+        {'username': username},
+        sort=[('score', DESCENDING)]
+    )
+    high_score = high_score_data['score'] if high_score_data else 0
+
+    # get average score using query
+    average_score_data = scores.aggregate([
+        {'$match': {'username': username}},
+        {'$group': {
+            '_id': '$username',
+            'average_score': {'$avg': '$score'}
+        }}
+    ])
+    average_score_result = list(average_score_data)
+    average_score = average_score_result[0]['average_score'] if average_score_result else 0
+
+    # return data
+    return jsonify({
+        'username': username,
+        'high_score': high_score,
+        'average_score': average_score
+    }), 200
 
 @app.route("/api/create-game", methods=["GET"])
 def create_game():
@@ -123,6 +163,16 @@ def get_scores():
                      'timestamp': x['timestamp']}
                     for x in all_scores]), 200
 
+@app.route('/api/get_user_games', methods=['GET'])
+def get_user_games():
+    """
+    Route that retrieves games for a user
+    """
+    username = request.args.get('username')
+    user_games = scores.find({'username': username}).sort('timestamp', -1)
+    return jsonify([{'username': x['username'],
+                     'score': x['score'], 
+                     'timestamp': x['timestamp']} for x in user_games]), 200
 
 if __name__ == "__main__":
     app.run(debug=True)

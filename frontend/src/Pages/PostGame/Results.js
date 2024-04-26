@@ -57,7 +57,7 @@ export default function Results({ gameState, setStage }) {
 
   useEffect(() => {
     // only if logged in
-    if (window.sessionStorage.getItem("user")) {
+    if (window.sessionStorage.getItem("user") && congratsText !== "") {
       const username = window.sessionStorage.getItem("user");
 
       const updateData = async () => {
@@ -65,7 +65,7 @@ export default function Results({ gameState, setStage }) {
       };
       updateData();
     }
-  }, []);
+  }, [congratsText]);
 
   if (loading) {
     return (
@@ -255,7 +255,13 @@ export default function Results({ gameState, setStage }) {
                 </VStack>
               </FadeInUpBox>
               <FadeInUpBox delay={delay + 0.8}>
-                <Button variant="text" mt={0} onClick={() => {}}>
+                <Button
+                  variant="text"
+                  mt={0}
+                  onClick={() => {
+                    navigate("/profile");
+                  }}
+                >
                   View Profile
                 </Button>
               </FadeInUpBox>
