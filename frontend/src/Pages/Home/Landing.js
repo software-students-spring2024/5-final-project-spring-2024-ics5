@@ -145,7 +145,13 @@ const Landing = ({ setStage }) => {
             </VStack>
           </FadeInUpBox>
           <FadeInUpBox delay={delay + 0.4}>
-            <Button variant="text" mt={0} onClick={() => {}}>
+            <Button
+              variant="text"
+              mt={0}
+              onClick={() => {
+                navigate("/profile");
+              }}
+            >
               View Profile
             </Button>
           </FadeInUpBox>
