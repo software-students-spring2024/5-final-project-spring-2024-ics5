@@ -72,7 +72,7 @@ def get_user(username):
     if user:
         return jsonify(user), 200
     return jsonify({'error': 'User not found'}), 404
-    
+
 @app.route('/api/user_score_stats/<username>', methods=['GET'])
 def get_user_scores(username):
     """
@@ -170,7 +170,7 @@ def get_user_games():
     """
     username = request.args.get('username')
     user_games = scores.find({'username': username}).sort('timestamp', -1)
-    return jsonify([{'username': x['username'], 
+    return jsonify([{'username': x['username'],
                      'score': x['score'], 
                      'timestamp': x['timestamp']} for x in user_games]), 200
 
