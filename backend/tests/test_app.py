@@ -2,11 +2,15 @@
 Tests for the Python backend
 """
 # pylint: disable=import-error, unused-argument, redefined-outer-name
+import os
 import pytest
+from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash
 from pymongo import MongoClient
 from app import app, fetch_object_ids
 
+load_dotenv()
+mongo_host = os.getenv("MONGO_HOST")
 
 @pytest.fixture(scope="module")
 def client():
@@ -15,12 +19,12 @@ def client():
     """
     app.config['TESTING'] = True
     app.config['DB_NAME'] = 'testing' # adjust the database configuration for testing
-    mongoclient = MongoClient('mongodb://localhost:27017/')
+    mongoclient = MongoClient(f'mongodb://{mongo_host}:27017/')
 
     with app.test_client() as testing_client:
         with app.app_context():
             yield testing_client
-        mongoclient = MongoClient('mongodb://localhost:27017/')
+        mongoclient = MongoClient(f'mongodb://{mongo_host}:27017/')
         mongoclient.drop_database('testing')
 
 # Fixture to setup a user in the database before tests
@@ -29,7 +33,7 @@ def setup_database():
     """
     Sets up the testing database
     """
-    mongoclient = MongoClient('mongodb://localhost:27017/')
+    mongoclient = MongoClient(f'mongodb://{mongo_host}:27017/')
     db = mongoclient['testing']
     users = db.users
     users.insert_one({

@@ -3,15 +3,18 @@ Fetches from met museum api to create game and return data to frontend
 """
 # pylint: disable=global-statement
 import random
+import os
 from datetime import datetime
 from flask import Flask, jsonify, request
+from dotenv import load_dotenv
 import requests
 from pymongo import MongoClient, DESCENDING
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
+load_dotenv()
+mongo_host = os.getenv("MONGO_HOST")
 app = Flask(__name__)
-client = MongoClient('mongodb://localhost:27017/', 27017)
+client = MongoClient(f'mongodb://{mongo_host}:27017/', 27017)
 app.config['DB_NAME'] = 'metguessr_users'
 db = client[app.config['DB_NAME']]  # Database name
 users = db.users  # users collection
@@ -193,4 +196,4 @@ def get_user_games():
                      'timestamp': x['timestamp']} for x in user_games]), 200
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
