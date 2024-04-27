@@ -32,5 +32,7 @@ jobs:
           pip install pytest
 
       - name: Test with Pytest
+        env:
+          MONGO_HOST: localhost
         working-directory: ./backend
         run: python -m pytest
