@@ -16,7 +16,7 @@ app.config['DB_NAME'] = 'metguessr_users'
 db = client[app.config['DB_NAME']]  # Database name
 users = db.users  # users collection
 scores = db.scores # scores collection
-
+print("test pytest workflow")
 def get_db():
     """
     Sets up the correct database
