@@ -8,8 +8,11 @@ RUN npm install
 # the ADD command is how you add files from your local machine into a Docker image
 # Copy the current directory contents into the container at /frontend
 ADD . .
+# Build the app
+RUN npm run build
+# Install serve
+RUN npm install -g serve
+# Run serve
+CMD ["serve", "-s", "build", "-l", "3000"]
 # expose the port that the Flask app is running on... by default 5000
 EXPOSE 3000
-
-# Run app.py when the container launches
-CMD ["npm", "start"]
