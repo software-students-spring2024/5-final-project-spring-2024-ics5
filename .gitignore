@@ -1,3 +1,6 @@
+# local test docker compose
+docker-compose.override.yml
+
 # mac junk
 .DS_Store
 

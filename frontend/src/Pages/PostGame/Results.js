@@ -56,6 +56,10 @@ export default function Results({ gameState, setStage }) {
   }
 
   useEffect(() => {
+    // if not logged in
+    if (!window.sessionStorage.getItem("user")) {
+      setLoading(false);
+    }
     // only if logged in
     if (window.sessionStorage.getItem("user") && congratsText !== "") {
       const username = window.sessionStorage.getItem("user");
@@ -254,28 +258,29 @@ export default function Results({ gameState, setStage }) {
                   </HStack>
                 </VStack>
               </FadeInUpBox>
-              <FadeInUpBox delay={delay + 0.8}>
+
+                <FadeInUpBox delay={delay + 0.8}>
                 <Button
                   variant="text"
                   mt={0}
                   onClick={() => {
                     navigate("/profile");
-                  }}
+                  } }
                 >
                   View Profile
                 </Button>
-              </FadeInUpBox>
-              <FadeInUpBox delay={delay + 0.9}>
-                <Button
-                  variant="text"
-                  onClick={() => {
-                    window.sessionStorage.removeItem("user");
-                    navigate("/");
-                  }}
-                >
-                  Log out
-                </Button>
-              </FadeInUpBox>
+              </FadeInUpBox><FadeInUpBox delay={delay + 0.9}>
+                  <Button
+                    variant="text"
+                    onClick={() => {
+                      window.sessionStorage.removeItem("user");
+                      navigate("/");
+                    } }
+                  >
+                    Log out
+                  </Button>
+                </FadeInUpBox>
+              
             </VStack>
           )}
         </VStack>
