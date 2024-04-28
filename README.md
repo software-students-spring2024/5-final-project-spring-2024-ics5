@@ -17,12 +17,25 @@ This is **Metguessr**, an online game where the user is given five random artifa
 
 ## Instructions to run locally
 
+
+### Option 1: Docker Compose
 1. Clone the repository
 2. In the root directory, run `docker-compose pull` to ensure the latest images
 3. In the root directory, run `docker-compose up -d` to start the system
 4. Run `docker-compose ps` to verify all containers started successfully
 
 After starting the system, navigate to [http://localhost](http://localhost) in your browser to view the webapp locally
+
+### Option 2: Local Setup
+1. Clone the repository
+2. Ensure that MongoDB is running locally
+3. In the `backend` directory, create a `.env` file and add `MONGO_HOST="localhost"`
+4. In the `backend` directory, run `pip install -r requirements.txt`
+5. In the `backend` directory, run `python app.py`
+6. In the `frontend` directory, run `npm install`
+7. In the `frontend` directory, run `npm start`
+
+After starting the system, navigate to [http://localhost:3000](http://localhost:3000) in your browser to view the webapp locally
 
 
 ## Docker Images
