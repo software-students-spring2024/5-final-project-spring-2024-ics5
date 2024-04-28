@@ -1,5 +1,5 @@
-# in Docker, it is common to base a new image on a previously-created image
-FROM node:latest
+# BUILD STAGE
+FROM node:latest as build-stage
 # Set the working directory in the image
 WORKDIR /frontend
 # install dependencies into the image - doing this first will speed up subsequent builds, as Docker will cache this step
@@ -10,9 +10,10 @@ RUN npm install
 ADD . .
 # Build the app
 RUN npm run build
-# Install serve
-RUN npm install -g serve
-# Run serve
-CMD ["serve", "-s", "build", "-l", "3000"]
-# expose the port that the app is running on
-EXPOSE 3000
+
+# PRODUCTION STAGE
+FROM nginx:stable-alpine as production-stage
+COPY --from=build-stage /frontend/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
