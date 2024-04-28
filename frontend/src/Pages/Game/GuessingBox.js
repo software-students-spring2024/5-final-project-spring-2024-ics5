@@ -13,7 +13,7 @@ import {
   ModalBody,
 } from "@chakra-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { FiChevronRight } from "react-icons/fi";
 import ScoreModal from "../../Components/ScoreModal";
 
@@ -26,8 +26,10 @@ export default function GuessingBox({
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isCE, setIsCE] = useState(true);
+  const [guess, setGuess] = useState(0);
+  const initialRef = useRef(null);
 
-  const handleGuess = () => {
+  const handleGuess = useCallback(() => {
     // validate input
     if (guess == "") {
       return;
@@ -72,13 +74,24 @@ export default function GuessingBox({
 
     // open scoring modal
     onOpen();
-  };
-
-  const [guess, setGuess] = useState(0);
+  }, [guess, isCE, gameState, progression, onOpen, setGameState]);
 
   useEffect(() => {
     setGuess(gameState["guesses"][progression]);
   }, [progression]);
+
+  // useEffect to handleGuess when enter key is pressed
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (e.key === "Enter") {
+        handleGuess();
+      }
+    };
+    window.addEventListener("keydown", handleKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [handleGuess]);
 
   return (
     <VStack position="absolute" bottom={20}>
@@ -198,9 +211,9 @@ export default function GuessingBox({
         </HStack>
       </motion.div>
 
-      <Modal isOpen={isOpen} closeOnOverlayClick={false}>
-        <ModalOverlay bg="rgba(0,0,0,0.85)" />
-        <ModalContent bg="none" boxShadow="none">
+      <Modal isOpen={isOpen} closeOnOverlayClick={false} initialFocusRef={initialRef}>
+        <ModalOverlay bg="rgba(0,0,0,0.85)"/>
+        <ModalContent bg="none" boxShadow="none" ref={initialRef}>
           <ModalBody>
             <ScoreModal
               userGuess={guess}
