@@ -26,3 +26,9 @@ After starting the system, navigate to [http://localhost](http://localhost) in y
 
 
 ## Docker Images
+
+<div>
+   <div><a target="_blank" href="https://hub.docker.com/layers/exl7954/metguessr/backend-latest/images/sha256-d04c7e96e9fc0e718356221cb232d762196256141d1edf4c19e8a4c338b97e3b?context=repo"><img src="https://github.com/software-students-spring2024/5-final-project-spring-2024-ics5/blob/main/images/docker-mark-blue.png" width="15px"> exl7954/metguessr:backend-latest</a></div>
+   <br>
+   <div><a target="_blank" href="https://hub.docker.com/layers/exl7954/metguessr/frontend-latest/images/sha256-a7cb81d6ae773104541e76e3e884b866c9bba3e896f65e25000fbc0caf9d23f3?context=repo"><img src="https://github.com/software-students-spring2024/5-final-project-spring-2024-ics5/blob/main/images/docker-mark-blue.png" width="15px"> exl7954/metguessr:frontend-latest</a></div>
+</div>
