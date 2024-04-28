@@ -1,36 +1,28 @@
+<div align="center">
+   <img src="https://github.com/software-students-spring2024/5-final-project-spring-2024-ics5/blob/main/images/metguessr.PNG" alt="metguessr">
+   <br>
+   <h3>Met Artwork Guessing Game</h3>
+   <p><a href="http://64.225.55.188/" target="_blank">Play Game</a></p>
+   <br>
+   <b>Created by: </b><em><a target="_blank" href="https://github.com/zhaojustin">Justin Zhao</a>, <a target="_blank" href="https://github.com/exl7954">Eric Lin</a>, <a target="_blank" href="https://github.com/ayd2134">Alice Ding</a></em>
+</div>
 
-# Metguessr
+***
+
 ![pylinter](https://github.com/software-students-spring2024/5-final-project-spring-2024-ics5/actions/workflows/pylinter.yml/badge.svg)
 ![pytester](https://github.com/software-students-spring2024/5-final-project-spring-2024-ics5/actions/workflows/pytester.yml/badge.svg)
 ![docker](https://github.com/software-students-spring2024/5-final-project-spring-2024-ics5/actions/workflows/docker-push.yml/badge.svg)
 
-Our final project is Metguessr, an online game where the user is given five random artifacts from the Met, and needs to guess when they were made. Users can record their scores by logging in / signing up, view their profile stats, as well as see the global leaderboard.
+This is **Metguessr**, an online game where the user is given five random artifacts from The Met, and needs to guess when they were made. Users can record their scores by logging in / signing up, view their profile stats, as well as see the global leaderboard.
 
 ## Instructions to run locally
 
-### Frontend:
+1. Clone the repository
+2. In the root directory, run `docker-compose pull` to ensure the latest images
+3. In the root directory, run `docker-compose up -d` to start the system
+4. Run `docker-compose ps` to verify all containers started successfully
 
-1. Ensure that you have either `npm` or `yarn` set up and run:
-   - `npm install` or `yarn` in the [frontend](/frontend/) folder
-2. In the same folder, run `npm start` or `yarn start`. This will start the frontend React App development server.
+After starting the system, navigate to [http://localhost](http://localhost) in your browser to view the webapp locally
 
-### Backend:
 
-1. Ensure that you have updated `pip` set up.
-2. Run `pip install -r requirements.txt` in the [backend](/backend/) folder.
-   - Alternatively, set up a virtual environment first and then installing it in the venv before pip installing.
-3. Start the Flask app by running `python app.py`.
-
-### Mongo:
-
-1. Start an instance of mongo in your local computer by running `mongod` in a terminal shell.
-
-After starting both the frontend and backend, you should be able to navigate to [http://localhost:3000](http://localhost:3000) in your browser to view the webapp locally.
-
-## TODO: ADD LINK TO DOCKER IMAGES
-
-## Team Members
-
-- [Eric Lin](https://github.com/exl7954)
-- [Alice Ding](https://github.com/ayd2134)
-- [Justin Zhao](https://github.com/zhaojustin)
+## Docker Images
