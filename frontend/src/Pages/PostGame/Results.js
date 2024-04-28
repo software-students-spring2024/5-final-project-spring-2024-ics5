@@ -237,7 +237,7 @@ export default function Results({ gameState, setStage }) {
             </HStack>
           </FadeInUpBox>
 
-          
+          {user !== "" && (
             <VStack key="loggedInUser" gap={0} mt={5}>
               <FadeInUpBox delay={delay + 0.7}>
                 <VStack mb={2}>
@@ -253,13 +253,13 @@ export default function Results({ gameState, setStage }) {
                       Logged in as
                     </Text>
                     <Text color="brand.500" fontSize={16} fontWeight={600}>
-                      {user !== "" ? user : "Guest"}
+                      {user}
                     </Text>
                   </HStack>
                 </VStack>
               </FadeInUpBox>
-              {user !== "" && (
-                <><FadeInUpBox delay={delay + 0.8}>
+
+                <FadeInUpBox delay={delay + 0.8}>
                 <Button
                   variant="text"
                   mt={0}
@@ -279,10 +279,10 @@ export default function Results({ gameState, setStage }) {
                   >
                     Log out
                   </Button>
-                </FadeInUpBox></>
-              )}
+                </FadeInUpBox>
+              
             </VStack>
-          
+          )}
         </VStack>
       </VStack>
     </VStack>
