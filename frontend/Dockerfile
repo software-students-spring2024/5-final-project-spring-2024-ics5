@@ -14,5 +14,5 @@ RUN npm run build
 RUN npm install -g serve
 # Run serve
 CMD ["serve", "-s", "build", "-l", "3000"]
-# expose the port that the Flask app is running on... by default 5000
+# expose the port that the app is running on
 EXPOSE 3000
