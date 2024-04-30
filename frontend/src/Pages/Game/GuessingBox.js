@@ -84,7 +84,13 @@ export default function GuessingBox({
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (e.key === "Enter") {
-        handleGuess();
+        if (!isOpen) {
+          handleGuess();
+        } else {
+          onClose();
+          if (progression < 4) setProgression(progression + 1);
+          else setStage("postGame");
+        }
       }
     };
     window.addEventListener("keydown", handleKeyPress);
