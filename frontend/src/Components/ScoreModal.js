@@ -1,7 +1,7 @@
 import { Center, VStack, Text, Icon, HStack, Button } from "@chakra-ui/react";
 import FadeInUpBox from "./FadeUp";
 import CountUp from "react-countup";
-import { FiChevronRight, FiMousePointer } from "react-icons/fi";
+import { FiChevronRight } from "react-icons/fi";
 
 export default function ScoreModal({
   userGuess,
