@@ -54,7 +54,7 @@ def test_object_fetch():
     """
     Test fetch object IDs
     """
-    data = fetch_object_ids()
+    data = fetch_object_ids(mode="asian")
     assert len(data) > 0
 
 
