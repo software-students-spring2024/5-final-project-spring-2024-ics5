@@ -121,7 +121,7 @@ def test_create_game(client):
     """
     Test create game
     """
-    response = client.get("/api/create-game/")
+    response = client.get("/api/create-game/asian")
     code = response.status_code
     body = response.json
     assert code == 200
