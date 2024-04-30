@@ -26,6 +26,15 @@ export default function Start() {
    */
   const [stage, setStage] = useState("");
 
+  /**
+   * gamemodes:
+   * "" is classic
+   * "asian"
+   * "medieval"
+   * "music"
+   */
+  const [mode, setMode] = useState("");
+
   // game state to be shared by all game pages
   const [gameState, setGameState] = useState({
     gameObjects: [],
@@ -53,12 +62,13 @@ export default function Start() {
     <VStack bgGradient="linear(to-r, #F5F5DC, #D8CAB8)" height="100vh" p={50}>
       <Center height="100%">
         <AnimatePresence>
-          {stage == "" && <Menu setStage={setStage} />}
+          {stage == "" && <Menu setStage={setStage} setMode={setMode} />}
           {stage == "game" && (
             <Game
               setStage={setStage}
               gameState={gameState}
               setGameState={setGameState}
+              mode={mode}
             />
           )}
           {stage == "postGame" && (
@@ -70,7 +80,7 @@ export default function Start() {
   );
 }
 
-const Menu = ({ setStage }) => {
+const Menu = ({ setStage, setMode }) => {
   const navigate = useNavigate();
 
   return (
@@ -97,6 +107,7 @@ const Menu = ({ setStage }) => {
           }}
           onClick={() => {
             setStage("game");
+            setMode("");
           }}
         >
           <Image src="/icons/temple.png" boxSize={20} />
@@ -128,6 +139,7 @@ const Menu = ({ setStage }) => {
           }}
           onClick={() => {
             setStage("game");
+            setMode("asian");
           }}
         >
           <Image src="/icons/bamboo.png" boxSize={20} />
@@ -159,6 +171,7 @@ const Menu = ({ setStage }) => {
           }}
           onClick={() => {
             setStage("game");
+            setMode("medieval");
           }}
         >
           <Image src="/icons/knight-on-horseback.png" boxSize={20} />
@@ -191,6 +204,7 @@ const Menu = ({ setStage }) => {
           }}
           onClick={() => {
             setStage("game");
+            setMode("music");
           }}
         >
           <Image src="/icons/cello.png" boxSize={20} />

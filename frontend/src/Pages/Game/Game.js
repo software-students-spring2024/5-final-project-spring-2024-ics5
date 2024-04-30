@@ -6,7 +6,7 @@ import ArtifactViewer from "./ArtifactViewer";
 import GameProgress from "./GameProgress";
 import GuessingBox from "./GuessingBox";
 
-export default function Game({ setStage, gameState, setGameState }) {
+export default function Game({ setStage, gameState, setGameState, mode }) {
   // loading states
   const [loading, setLoading] = useState(true);
   const [loadingTextIndex, setLoadingTextIndex] = useState(0);
@@ -23,7 +23,7 @@ export default function Game({ setStage, gameState, setGameState }) {
 
   useEffect(() => {
     const createGame = async () => {
-      fetch("/api/create-game")
+      fetch("/api/create-game/" + mode)
         .then((response) => {
           if (!response.ok) throw new Error("Network response was not ok");
           return response.json();
