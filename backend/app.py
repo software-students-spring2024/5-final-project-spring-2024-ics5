@@ -156,7 +156,7 @@ def create_game(mode):
     """
     print("Creating game...")
     if mode == "":
-        print(f"Selected mode: Classic")
+        print("Selected mode: Classic")
     else:
         print(f"Selected mode: {mode}")
 
