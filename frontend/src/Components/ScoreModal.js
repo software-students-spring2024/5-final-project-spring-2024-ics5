@@ -43,7 +43,7 @@ export default function ScoreModal({
             </Text>
             <Text
               color={
-                gameState["roundScores"][progression] == 0
+                gameState["roundScores"][progression] === 0
                   ? "red.300"
                   : "green.300"
               }
@@ -95,7 +95,7 @@ export default function ScoreModal({
             onClick={onClose}
           >
             {progression < 4 && "Continue"}
-            {progression == 4 && "See Score"}
+            {progression === 4 && "See Score"}
           </Button>
         </FadeInUpBox>
       </VStack>
