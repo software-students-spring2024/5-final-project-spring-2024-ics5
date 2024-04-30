@@ -12,6 +12,7 @@
 ![pylinter](https://github.com/software-students-spring2024/5-final-project-spring-2024-ics5/actions/workflows/pylinter.yml/badge.svg)
 ![pytester](https://github.com/software-students-spring2024/5-final-project-spring-2024-ics5/actions/workflows/pytester.yml/badge.svg)
 ![docker](https://github.com/software-students-spring2024/5-final-project-spring-2024-ics5/actions/workflows/docker-push.yml/badge.svg)
+![redeploy](https://github.com/software-students-spring2024/5-final-project-spring-2024-ics5/actions/workflows/redeploy.yml/badge.svg)
 
 This is **Metguessr**, an online game where the user is given five random artifacts from The Met, and needs to guess when they were made. Users can record their scores by logging in / signing up, view their profile stats, as well as see the global leaderboard.
 
