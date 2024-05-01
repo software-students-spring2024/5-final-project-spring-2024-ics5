@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { VStack, Center, Text, Spinner, useDisclosure } from "@chakra-ui/react";
+import { VStack, Center, Text, Spinner } from "@chakra-ui/react";
 
 // import components
 import ArtifactViewer from "./ArtifactViewer";
