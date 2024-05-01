@@ -156,7 +156,7 @@ def create_game(mode):
     """
     print("Creating game...")
     print(f"Selected mode: {mode}")
-    
+
     # get all objects
     object_ids = fetch_object_ids(mode)
     random.shuffle(object_ids)
