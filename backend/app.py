@@ -37,7 +37,7 @@ def fetch_object_ids(mode):
     """
     Fetches met museum api for all object ids.
     """
-    if mode == "":
+    if mode == "classic":
         url = "https://collectionapi.metmuseum.org/public/collection/v1/objects"
     else:
         base_url = "https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds="
@@ -155,11 +155,8 @@ def create_game(mode):
         - Image
     """
     print("Creating game...")
-    if mode == "":
-        print("Selected mode: Classic")
-    else:
-        print(f"Selected mode: {mode}")
-
+    print(f"Selected mode: {mode}")
+        
     # get all objects
     object_ids = fetch_object_ids(mode)
     random.shuffle(object_ids)
