@@ -28,12 +28,12 @@ export default function Start() {
 
   /**
    * gamemodes:
-   * "" is classic
+   * "classic"
    * "asian"
    * "medieval"
    * "music"
    */
-  const [mode, setMode] = useState("");
+  const [mode, setMode] = useState("classic");
 
   // game state to be shared by all game pages
   const [gameState, setGameState] = useState({
@@ -107,7 +107,7 @@ const Menu = ({ setStage, setMode }) => {
           }}
           onClick={() => {
             setStage("game");
-            setMode("");
+            setMode("classic");
           }}
         >
           <Image src="/icons/temple.png" boxSize={20} />
