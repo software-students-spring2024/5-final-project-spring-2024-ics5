@@ -2,6 +2,8 @@ name: Redeploy on Droplet
 
 on:
   workflow_run:
+    branches:
+      - main
     workflows: ["Build and Push Docker Images"]
     types:
       - completed
